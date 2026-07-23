@@ -62,7 +62,20 @@ def list_jobs():
 
 @app.route("/admin")
 def admin():
-    return render_template("admin.html")
+
+    cursor.execute("SELECT id, title, details FROM jobs")
+    rows = cursor.fetchall()
+
+    jobs = []
+
+    for row in rows:
+        jobs.append({
+            "id": row[0],
+            "title": row[1],
+            "details": row[2]
+        })
+
+    return render_template("admin.html", jobs=jobs)
 
 
 @app.route("/add-job", methods=["POST"])
@@ -79,6 +92,42 @@ def add_job():
     db.commit()
 
     return redirect("/")
+@app.route("/delete-job/<int:id>")
+def delete_job(id):
+
+    cursor.execute("DELETE FROM jobs WHERE id=%s", (id,))
+    db.commit()
+
+    return redirect("/admin")
+@app.route("/edit-job/<int:id>")
+def edit_job(id):
+
+    cursor.execute("SELECT id, title, details FROM jobs WHERE id=%s", (id,))
+    row = cursor.fetchone()
+
+    job = {
+        "id": row[0],
+        "title": row[1],
+        "details": row[2]
+    }
+
+    return render_template("edit_job.html", job=job)
+
+
+@app.route("/update-job/<int:id>", methods=["POST"])
+def update_job(id):
+
+    title = request.form["title"]
+    details = request.form["details"]
+
+    cursor.execute(
+        "UPDATE jobs SET title=%s, details=%s WHERE id=%s",
+        (title, details, id)
+    )
+
+    db.commit()
+
+    return redirect("/admin")
 
 
 if __name__ == "__main__":
