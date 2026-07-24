@@ -1,7 +1,8 @@
-from flask import Flask, render_template, jsonify, request, redirect
+from flask import Flask, render_template, jsonify, request, redirect, session
 import mysql.connector
 
 app = Flask(__name__)
+app.secret_key = "govjobshub_secret_key"
 
 try:
     db = mysql.connector.connect(
@@ -115,6 +116,8 @@ def api_jobs():
 
 @app.route("/admin")
 def admin():
+    if "admin" not in session:
+        return redirect("/login")
 
     cursor.execute("SELECT * FROM jobs")
 
@@ -229,6 +232,31 @@ def delete_job(id):
     db.commit()
 
     return redirect("/admin")
+@app.route("/login")
+def login():
+
+    return render_template("login.html")
+
+
+@app.route("/login", methods=["POST"])
+def login_post():
+
+    username = request.form["username"]
+    password = request.form["password"]
+
+    if username == "admin" and password == "admin123":
+
+        session["admin"] = True
+
+        return redirect("/admin")
+
+    return "Invalid Username or Password"
+@app.route("/logout")
+def logout():
+
+    session.pop("admin", None)
+
+    return redirect("/login")
 
 
 if __name__ == "__main__":
