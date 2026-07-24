@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
     <title>Admin Dashboard</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,6 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
+
         body{
             background:#f8f9fa;
         }
@@ -21,109 +24,237 @@
             font-weight:bold;
         }
 
+        textarea{
+            resize:none;
+        }
+
         .table td,
         .table th{
-            vertical-align: middle;
+            vertical-align:middle;
         }
+
     </style>
+
 </head>
 
 <body>
 
 <div class="container py-5">
 
-    <h1 class="text-center mb-5">Admin Dashboard</h1>
+    <h1 class="text-center mb-5">
+        Admin Dashboard
+    </h1>
 
-    <!-- Add Job Card -->
+    <!-- Add Job -->
+
     <div class="card shadow p-4">
 
-        <h3 class="mb-4">Add New Job</h3>
+        <h3 class="mb-4">
+            Add New Job
+        </h3>
 
         <form action="/add-job" method="POST">
 
             <div class="mb-3">
-                <label class="form-label">Job Title</label>
+
+                <label class="form-label">
+                    Job Title
+                </label>
 
                 <input
                     type="text"
                     class="form-control"
                     name="title"
                     required>
+
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Details</label>
+
+                <label class="form-label">
+                    Organization
+                </label>
 
                 <input
                     type="text"
                     class="form-control"
-                    name="details"
+                    name="organization"
                     required>
+
             </div>
 
-            <button type="submit" class="btn btn-primary">
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Qualification
+                </label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    name="qualification"
+                    required>
+
+            </div>
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Age Limit
+                </label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    name="age_limit"
+                    required>
+
+            </div>
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Last Date
+                </label>
+
+                <input
+                    type="date"
+                    class="form-control"
+                    name="last_date"
+                    required>
+
+            </div>
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Official Website Link
+                </label>
+
+                <input
+                    type="url"
+                    class="form-control"
+                    name="official_link"
+                    placeholder="https://..."
+                    required>
+
+            </div>
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Notification PDF Link
+                </label>
+
+                <input
+                    type="url"
+                    class="form-control"
+                    name="notification_link"
+                    placeholder="https://..."
+                    required>
+
+            </div>
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Description
+                </label>
+
+                <textarea
+                    class="form-control"
+                    rows="5"
+                    name="description"
+                    required></textarea>
+
+            </div>
+
+            <button
+                type="submit"
+                class="btn btn-primary">
+
                 Add Job
+
             </button>
 
         </form>
 
     </div>
 
-    <!-- Existing Jobs Card -->
+    <!-- Existing Jobs -->
+
     <div class="card shadow mt-5 p-4">
 
-        <h3 class="mb-4">Existing Jobs</h3>
+        <h3 class="mb-4">
+            Existing Jobs
+        </h3>
 
-        <table class="table table-bordered table-hover">
+        <div class="table-responsive">
 
-            <thead class="table-dark">
+            <table class="table table-bordered table-hover">
 
-                <tr>
-                    <th>ID</th>
-                    <th>Job Title</th>
-                    <th>Details</th>
-                    <th>Action</th>
-                </tr>
+                <thead class="table-dark">
 
-            </thead>
+                    <tr>
 
-            <tbody>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Organization</th>
+                        <th>Qualification</th>
+                        <th>Last Date</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
 
                 {% for job in jobs %}
 
-                <tr>
+                    <tr>
 
-                    <td>{{ job['id'] }}</td>
+                        <td>{{ job['id'] }}</td>
 
-                    <td>{{ job['title'] }}</td>
+                        <td>{{ job['title'] }}</td>
 
-                    <td>{{ job['details'] }}</td>
+                        <td>{{ job['organization'] }}</td>
 
-                    <td>
+                        <td>{{ job['qualification'] }}</td>
 
-                        <a href="/edit-job/{{ job['id'] }}" class="btn btn-warning btn-sm">
-                            Edit
-                        </a>
+                        <td>{{ job['last_date'] }}</td>
 
-                        <a href="/delete-job/{{ job['id'] }}"
-                           class="btn btn-danger btn-sm"
-                           onclick="return confirm('Are you sure you want to delete this job?')">
-                            Delete
-                        </a>
+                        <td>
 
-                    </td>
+                            <a href="/edit-job/{{ job['id'] }}"
+                               class="btn btn-warning btn-sm">
+                                Edit
+                            </a>
 
-                </tr>
+                            <a href="/delete-job/{{ job['id'] }}"
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('Are you sure you want to delete this job?')">
+
+                                Delete
+
+                            </a>
+
+                        </td>
+
+                    </tr>
 
                 {% endfor %}
 
-            </tbody>
+                </tbody>
 
-        </table>
+            </table>
+
+        </div>
 
     </div>
 
 </div>
 
 </body>
+
 </html>

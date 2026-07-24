@@ -103,25 +103,50 @@
             Welcome to GovJobsHub, your trusted source for the latest government job notifications across India. Our platform brings together official recruitment updates from various government departments in one convenient place. We provide direct links to the official application portals, ensuring a safe and reliable job search experience. Our goal is to help job seekers stay informed about new opportunities without the hassle of visiting multiple websites. Stay connected with GovJobsHub and take the next step toward your government career with confidence.
         </p>
 
-        <h2 style="color:#0D47A1;" class="mt-5 mb-4">Latest Government Jobs</h2>
+      <h2 style="color:#0D47A1;" class="mt-5 mb-4">
+        Latest Government Jobs
+      </h2>
 
-        {% for job in jobs %}
-        <div class="job-card">
+      {% for job in jobs %}
 
-            <div class="d-flex justify-content-between align-items-center">
+      <div class="job-card">
+
+        <div class="d-flex justify-content-between align-items-start">
+
+            <div>
 
                 <div class="job-title">
                     {{ job['title'] }}
                 </div>
 
-                <button class="details-btn">
-                    Details
-                </button>
+                <p class="mt-2 mb-1">
+                    <strong>Organization:</strong>
+                    {{ job['organization'] }}
+                </p>
+
+                <p class="mb-0">
+                    <strong>Last Date:</strong>
+                    {{ job['last_date'] }}
+                </p>
+
+            </div>
+
+            <div>
+
+                <a href="/job/{{ job['id'] }}"
+                   class="details-btn text-decoration-none">
+
+                    View Details
+
+                </a>
 
             </div>
 
         </div>
-        {% endfor %}
+
+      </div>
+
+      {% endfor %}
 
         <div class="text-center mt-4">
             <button class="contact-btn">Contact Us</button>
